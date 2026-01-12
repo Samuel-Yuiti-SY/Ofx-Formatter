@@ -1,4 +1,4 @@
-# OFX Formatter
+# OFX Formatter - Status: EM TESTE
 
 Ferramenta web simples para normalização e correção de arquivos OFX
 (voltada principalmente para extratos da Caixa).
@@ -13,3 +13,4 @@ Ferramenta web simples para normalização e correção de arquivos OFX
 ```bash
 pip install -r requirements.txt
 python app.py
+
