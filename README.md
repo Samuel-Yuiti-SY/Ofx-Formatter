@@ -1,6 +1,6 @@
-# Formatador de Extrato Caixa - Conciflex
+# Correção de Extratos Caixa OFX
 
-Site profissional da Conciflex para corrigir e formatar extratos bancários no padrão `.ofx`, com foco em arquivos gerados pela Caixa.
+Site profissional para corrigir e formatar extratos bancários no padrão `.ofx`, com foco em arquivos gerados pela Caixa.
 
 A ferramenta foi criada para tornar o processo simples: a pessoa seleciona o extrato, o sistema processa o arquivo em poucos segundos e devolve um novo `.ofx` pronto para download.
 
