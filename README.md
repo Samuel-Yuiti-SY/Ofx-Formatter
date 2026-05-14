@@ -1,4 +1,4 @@
-# Correção de Extratos Caixa OFX
+# Formatador de Extrato Caixa
 
 Site profissional para corrigir e formatar extratos bancários no padrão `.ofx`, com foco em arquivos gerados pela Caixa.
 
@@ -12,7 +12,7 @@ https://site-umber-six-63.vercel.app
 
 ## Versão
 
-Versão atual: `1.0.0`
+Versão atual: `1.0.1`
 
 ## Funcionalidades
 

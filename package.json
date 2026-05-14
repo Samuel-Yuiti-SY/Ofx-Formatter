@@ -1,8 +1,8 @@
 {
-  "name": "conciflex-formatador-extrato-caixa",
-  "version": "1.0.0",
+  "name": "ofx-formatter-caixa",
+  "version": "1.0.1",
   "private": true,
-  "description": "Site da Conciflex para corrigir e formatar extratos bancários OFX da Caixa.",
+  "description": "Site para corrigir e formatar extratos bancários OFX da Caixa.",
   "homepage": "https://site-umber-six-63.vercel.app",
   "repository": {
     "type": "git",

@@ -142,16 +142,16 @@ export function UploadForm() {
       />
 
       <div className="mb-6">
-        <div className="grid h-14 w-14 place-items-center rounded-lg bg-conciflex-blue/10 text-conciflex-blue">
+        <div className="grid h-14 w-14 place-items-center rounded-lg bg-brand-blue/10 text-brand-blue">
           <UploadCloud aria-hidden className="h-7 w-7" />
         </div>
-        <h2 className="mt-4 text-xl font-semibold text-conciflex-blue">
+        <h2 className="mt-4 text-xl font-semibold text-brand-blue">
           Enviar extrato
         </h2>
       </div>
 
       <button
-        className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-md bg-conciflex-blue px-4 py-3 text-base font-semibold text-white transition hover:bg-[#24435f] disabled:cursor-not-allowed disabled:opacity-70"
+        className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-md bg-brand-blue px-4 py-3 text-base font-semibold text-white transition hover:bg-[#24435f] disabled:cursor-not-allowed disabled:opacity-70"
         disabled={isProcessing}
         onClick={() => inputRef.current?.click()}
         type="button"
@@ -165,8 +165,8 @@ export function UploadForm() {
       </button>
 
       {selectedFileName ? (
-        <div className="mt-4 flex items-center gap-3 rounded-md border border-slate-200 bg-slate-50 px-3 py-3 text-sm text-conciflex-gray">
-          <FileText aria-hidden className="h-5 w-5 shrink-0 text-conciflex-blue" />
+        <div className="mt-4 flex items-center gap-3 rounded-md border border-slate-200 bg-slate-50 px-3 py-3 text-sm text-brand-gray">
+          <FileText aria-hidden className="h-5 w-5 shrink-0 text-brand-blue" />
           <span className="truncate">{selectedFileName}</span>
         </div>
       ) : null}
@@ -176,10 +176,10 @@ export function UploadForm() {
           className={[
             "mt-4 flex items-start gap-3 rounded-md px-3 py-3 text-sm",
             isSuccess
-              ? "bg-conciflex-green/10 text-[#1f7d35]"
+              ? "bg-brand-green/10 text-[#1f7d35]"
               : isError
                 ? "bg-red-50 text-red-700"
-                : "bg-slate-50 text-conciflex-gray"
+                : "bg-slate-50 text-brand-gray"
           ].join(" ")}
           role={isError ? "alert" : "status"}
         >
@@ -196,7 +196,7 @@ export function UploadForm() {
 
       {downloadUrl ? (
         <a
-          className="mt-4 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-md bg-conciflex-green px-4 py-3 text-base font-semibold text-white transition hover:bg-[#218838]"
+          className="mt-4 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-md bg-brand-green px-4 py-3 text-base font-semibold text-white transition hover:bg-[#218838]"
           download={downloadFileName}
           href={downloadUrl}
         >

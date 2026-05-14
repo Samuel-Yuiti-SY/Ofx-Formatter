@@ -9,7 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        conciflex: {
+        brand: {
           blue: "#2d5275",
           green: "#28a745",
           gray: "#666666",
