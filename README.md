@@ -8,11 +8,11 @@ A ferramenta foi criada para tornar o processo simples: a pessoa seleciona o ext
 
 Produção na Vercel:
 
-https://site-umber-six-63.vercel.app
+https://site-extratos-ofx.vercel.app
 
 ## Versão
 
-Versão atual: `1.0.1`
+Versão atual: `1.0.2`
 
 ## Funcionalidades
 

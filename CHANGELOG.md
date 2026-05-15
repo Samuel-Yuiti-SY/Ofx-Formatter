@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.2 - 2026-05-15
+
+- Novo projeto criado na Vercel com domínio `site-extratos-ofx.vercel.app`.
+- README atualizado para apontar ao endereço público atual do Formatador OFX.
+
 ## 1.0.1 - 2026-05-14
 
 - Removida a menção pública ao nome da empresa no cabeçalho e nos metadados.
