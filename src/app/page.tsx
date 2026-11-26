@@ -39,14 +39,29 @@ export default function Home() {
         <section className="intro" aria-labelledby="titulo">
           <p className="eyebrow">EXTRATOS CAIXA · ARQUIVOS OFX</p>
           <h1 id="titulo">
-            Seu extrato.
-            <br />
-            Com a estrutura <span>em ordem.</span>
+            Formatador de <span>extratos OFX</span>
           </h1>
           <p className="intro-copy">
             Corrija a formatação do seu arquivo OFX para facilitar a leitura em
             sistemas financeiros. Selecione o extrato e baixe a versão ajustada.
           </p>
+          <figure className="format-example">
+            <figcaption>Exemplo de correção de uma tag</figcaption>
+            <dl>
+              <div>
+                <dt>Original</dt>
+                <dd>
+                  <code>{"<TRNAMT>-20.00"}</code>
+                </dd>
+              </div>
+              <div>
+                <dt>Corrigido</dt>
+                <dd>
+                  <code>{"<TRNAMT>-20.00</TRNAMT>"}</code>
+                </dd>
+              </div>
+            </dl>
+          </figure>
           <div className="privacy-note">
             <LockKeyhole aria-hidden size={19} />
             <p>
@@ -67,7 +82,7 @@ export default function Home() {
         >
           <div className="section-heading">
             <p className="eyebrow">DO ARQUIVO À IMPORTAÇÃO</p>
-            <h2 id="instrucoes-titulo">Três passos, uma nova cópia.</h2>
+            <h2 id="instrucoes-titulo">Como formatar o extrato</h2>
           </div>
           <ol className="step-list">
             {steps.map(([number, title, description]) => (
