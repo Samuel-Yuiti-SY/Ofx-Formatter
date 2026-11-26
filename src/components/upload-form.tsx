@@ -1,13 +1,13 @@
 "use client";
 
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, DragEvent, useEffect, useRef, useState } from "react";
 import {
   AlertCircle,
   CheckCircle2,
   Download,
   FileText,
   Loader2,
-  UploadCloud
+  UploadCloud,
 } from "lucide-react";
 
 type UploadStatus = "idle" | "processing" | "success" | "error";
@@ -26,7 +26,11 @@ function extractFileName(contentDisposition: string | null): string | null {
 
   const encodedMatch = contentDisposition.match(/filename\*=UTF-8''([^;]+)/i);
   if (encodedMatch?.[1]) {
-    return decodeURIComponent(encodedMatch[1].replace(/"/g, ""));
+    try {
+      return decodeURIComponent(encodedMatch[1].replace(/"/g, ""));
+    } catch {
+      return null;
+    }
   }
 
   const fallbackMatch = contentDisposition.match(/filename="?([^"]+)"?/i);
@@ -35,11 +39,15 @@ function extractFileName(contentDisposition: string | null): string | null {
 
 export function UploadForm() {
   const inputRef = useRef<HTMLInputElement>(null);
+  const processingRef = useRef(false);
+  const [isDragging, setIsDragging] = useState(false);
   const [status, setStatus] = useState<UploadStatus>("idle");
   const [message, setMessage] = useState("");
   const [selectedFileName, setSelectedFileName] = useState("");
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
-  const [downloadFileName, setDownloadFileName] = useState("extrato-formatado.ofx");
+  const [downloadFileName, setDownloadFileName] = useState(
+    "extrato-formatado.ofx",
+  );
 
   useEffect(() => {
     return () => {
@@ -68,7 +76,7 @@ export function UploadForm() {
     try {
       const response = await fetch("/api/formatar", {
         method: "POST",
-        body: formData
+        body: formData,
       });
 
       if (!response.ok) {
@@ -100,8 +108,12 @@ export function UploadForm() {
       resetDownload();
       setStatus("error");
       setMessage(
-        error instanceof Error ? error.message : "Não foi possível processar o arquivo."
+        error instanceof Error
+          ? error.message
+          : "Não foi possível processar o arquivo.",
       );
+    } finally {
+      processingRef.current = false;
     }
   }
 
@@ -113,16 +125,32 @@ export function UploadForm() {
       return;
     }
 
-    setSelectedFileName(file.name);
+    await selectFile(file);
+  }
 
-    if (!file.name.toLowerCase().endsWith(".ofx")) {
+  async function selectFile(file: File) {
+    if (processingRef.current) return;
+    setSelectedFileName(file.name);
+    const error = !file.name.toLowerCase().endsWith(".ofx")
+      ? INVALID_FILE_MESSAGE
+      : file.size > 8 * 1024 * 1024
+        ? "O arquivo excede o limite de 8 MB."
+        : null;
+    if (error) {
       resetDownload();
       setStatus("error");
-      setMessage(INVALID_FILE_MESSAGE);
+      setMessage(error);
       return;
     }
-
+    processingRef.current = true;
     await processFile(file);
+  }
+
+  async function handleDrop(event: DragEvent<HTMLDivElement>) {
+    event.preventDefault();
+    setIsDragging(false);
+    const file = event.dataTransfer.files[0];
+    if (file) await selectFile(file);
   }
 
   const isProcessing = status === "processing";
@@ -130,80 +158,104 @@ export function UploadForm() {
   const isError = status === "error";
 
   return (
-    <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-soft sm:p-6">
+    <section
+      className="upload-panel"
+      aria-labelledby="upload-title"
+      aria-busy={isProcessing}
+    >
       <input
         ref={inputRef}
         accept=".ofx"
-        aria-label="Selecionar Extrato Caixa"
+        aria-label="Selecionar arquivo OFX"
         className="sr-only"
+        tabIndex={-1}
         disabled={isProcessing}
         onChange={handleFileChange}
         type="file"
       />
-
-      <div className="mb-6">
-        <div className="grid h-14 w-14 place-items-center rounded-lg bg-brand-blue/10 text-brand-blue">
-          <UploadCloud aria-hidden className="h-7 w-7" />
-        </div>
-        <h2 className="mt-4 text-xl font-semibold text-brand-blue">
-          Enviar extrato
-        </h2>
+      <div className="upload-heading">
+        <h2 id="upload-title">Corrigir meu extrato</h2>
+        <span className="file-type">.OFX</span>
       </div>
-
+      <div
+        className={`dropzone${isDragging ? " is-dragging" : ""}`}
+        onDragOver={(event) => {
+          event.preventDefault();
+          if (!isProcessing) setIsDragging(true);
+        }}
+        onDragLeave={() => setIsDragging(false)}
+        onDrop={handleDrop}
+      >
+        <UploadCloud
+          aria-hidden
+          className="upload-icon"
+          size={36}
+          strokeWidth={1.3}
+        />
+        <strong>
+          {isDragging ? "Solte o arquivo aqui" : "Arraste seu extrato para cá"}
+        </strong>
+        <p>
+          ou selecione um arquivo do dispositivo
+          <br />
+          Formato .ofx · até 8 MB
+        </p>
+      </div>
       <button
-        className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-md bg-brand-blue px-4 py-3 text-base font-semibold text-white transition hover:bg-[#24435f] disabled:cursor-not-allowed disabled:opacity-70"
+        className="upload-button"
         disabled={isProcessing}
         onClick={() => inputRef.current?.click()}
         type="button"
+        aria-describedby="upload-help"
       >
         {isProcessing ? (
-          <Loader2 aria-hidden className="h-5 w-5 animate-spin" />
+          <Loader2 aria-hidden className="animate-spin" size={18} />
         ) : (
-          <UploadCloud aria-hidden className="h-5 w-5" />
+          <FileText aria-hidden size={18} />
         )}
-        Selecionar Extrato Caixa
+        {isProcessing
+          ? "Corrigindo extrato…"
+          : isSuccess
+            ? "Selecionar outro extrato"
+            : "Selecionar arquivo OFX"}
       </button>
-
-      {selectedFileName ? (
-        <div className="mt-4 flex items-center gap-3 rounded-md border border-slate-200 bg-slate-50 px-3 py-3 text-sm text-brand-gray">
-          <FileText aria-hidden className="h-5 w-5 shrink-0 text-brand-blue" />
-          <span className="truncate">{selectedFileName}</span>
+      <p id="upload-help" className="upload-caption">
+        O processamento começa ao selecionar o arquivo. Seu extrato original
+        permanece no dispositivo.
+      </p>
+      {selectedFileName && (
+        <div className="selected-file">
+          <FileText aria-hidden size={18} className="shrink-0" />
+          <span>{selectedFileName}</span>
         </div>
-      ) : null}
-
-      {message ? (
-        <div
-          className={[
-            "mt-4 flex items-start gap-3 rounded-md px-3 py-3 text-sm",
-            isSuccess
-              ? "bg-brand-green/10 text-[#1f7d35]"
-              : isError
-                ? "bg-red-50 text-red-700"
-                : "bg-slate-50 text-brand-gray"
-          ].join(" ")}
-          role={isError ? "alert" : "status"}
-        >
-          {isSuccess ? (
-            <CheckCircle2 aria-hidden className="mt-0.5 h-5 w-5 shrink-0" />
-          ) : isError ? (
-            <AlertCircle aria-hidden className="mt-0.5 h-5 w-5 shrink-0" />
-          ) : (
-            <Loader2 aria-hidden className="mt-0.5 h-5 w-5 shrink-0 animate-spin" />
-          )}
-          <span>{message}</span>
-        </div>
-      ) : null}
-
-      {downloadUrl ? (
+      )}
+      <div aria-live="polite" aria-atomic="true">
+        {message && (
+          <div
+            className={`feedback ${isSuccess ? "success" : isError ? "error" : ""}`}
+            role={isError ? "alert" : "status"}
+          >
+            {isSuccess ? (
+              <CheckCircle2 aria-hidden size={18} />
+            ) : isError ? (
+              <AlertCircle aria-hidden size={18} />
+            ) : (
+              <Loader2 aria-hidden size={18} className="animate-spin" />
+            )}
+            <span>{message}</span>
+          </div>
+        )}
+      </div>
+      {downloadUrl && (
         <a
-          className="mt-4 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-md bg-brand-green px-4 py-3 text-base font-semibold text-white transition hover:bg-[#218838]"
+          className="download-button"
           download={downloadFileName}
           href={downloadUrl}
         >
-          <Download aria-hidden className="h-5 w-5" />
+          <Download aria-hidden size={18} />
           Baixar extrato formatado
         </a>
-      ) : null}
+      )}
     </section>
   );
 }

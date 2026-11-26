@@ -1,68 +1,117 @@
-import { FileText, LockKeyhole, UserRound } from "lucide-react";
+import { ArrowDown, FileCheck2, FileText, LockKeyhole } from "lucide-react";
 import { UploadForm } from "@/components/upload-form";
+
+const steps = [
+  ["01", "Selecione o extrato", "Use o arquivo .ofx exportado pelo banco."],
+  [
+    "02",
+    "Aguarde a correção",
+    "A ferramenta ajusta tags, datas e a estrutura do arquivo.",
+  ],
+  [
+    "03",
+    "Baixe e confira",
+    "Salve uma nova cópia e confira os dados antes de importar.",
+  ],
+];
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#f6f8fb] text-slate-900">
-      <header className="border-b border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-6">
-          <div className="flex items-center gap-3">
-            <div className="grid h-10 w-10 place-items-center rounded-lg bg-brand-blue text-white">
-              <UserRound aria-hidden className="h-5 w-5" />
-            </div>
-            <div>
-              <p className="text-base font-semibold text-brand-blue">Samuel Yuiti</p>
-              <p className="text-xs font-medium uppercase tracking-wide text-brand-gray">
-                Formatador OFX
-              </p>
-            </div>
-          </div>
+    <div className="ofx-app">
+      <a className="skip-link" href="#conteudo">
+        Ir para o conteúdo
+      </a>
+      <header className="site-header">
+        <div className="page-width header-inner">
+          <a href="/" className="wordmark" aria-label="Formatador OFX, início">
+            <FileText aria-hidden size={26} />
+            <span>
+              OFX<span className="wordmark-divider">/</span>
+              <span className="wordmark-light">formatador</span>
+            </span>
+          </a>
+          <a className="header-link" href="#como-funciona">
+            Como funciona <ArrowDown aria-hidden size={15} />
+          </a>
         </div>
       </header>
-
-      <section className="mx-auto grid max-w-6xl grid-cols-1 gap-8 px-5 py-10 sm:px-6 lg:grid-cols-[1fr_440px] lg:py-16">
-        <div className="flex flex-col justify-center">
-          <div className="mb-5 inline-flex w-fit items-center gap-2 rounded-md border border-brand-blue/15 bg-white px-3 py-2 text-sm font-medium text-brand-blue shadow-sm">
-            <FileText aria-hidden className="h-4 w-4" />
-            Correção de arquivos OFX
-          </div>
-
-          <h1 className="max-w-3xl text-4xl font-bold leading-tight text-brand-blue sm:text-5xl">
-            Formatador de Extrato Caixa
+      <main id="conteudo" className="page-width workspace">
+        <section className="intro" aria-labelledby="titulo">
+          <p className="eyebrow">EXTRATOS CAIXA · ARQUIVOS OFX</p>
+          <h1 id="titulo">
+            Seu extrato.
+            <br />
+            Com a estrutura <span>em ordem.</span>
           </h1>
-          <p className="mt-4 max-w-2xl text-lg leading-8 text-brand-gray">
-            Envie seu arquivo OFX e baixe o extrato corrigido em poucos segundos.
+          <p className="intro-copy">
+            Corrija a formatação do seu arquivo OFX para facilitar a leitura em
+            sistemas financeiros. Selecione o extrato e baixe a versão ajustada.
           </p>
-
-          <div className="mt-8 flex flex-wrap gap-3 text-sm text-brand-gray">
-            <span className="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 shadow-sm ring-1 ring-slate-200">
-              <LockKeyhole aria-hidden className="h-4 w-4 text-brand-green" />
-              Processamento sem armazenamento permanente
-            </span>
+          <div className="privacy-note">
+            <LockKeyhole aria-hidden size={19} />
+            <p>
+              Processamento em memória.
+              <br />
+              <span>Sem armazenamento permanente do arquivo.</span>
+            </p>
           </div>
-        </div>
-
+          <a className="text-link" href="#como-funciona">
+            Entenda o que é corrigido <ArrowDown aria-hidden size={16} />
+          </a>
+        </section>
         <UploadForm />
-      </section>
-
-      <footer className="border-t border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-5 py-6 text-sm text-brand-gray sm:flex-row sm:items-center sm:justify-between sm:px-6">
-          <p>Site criado por: Samuel Yuiti</p>
-          <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-4">
-            <a className="text-brand-blue hover:text-brand-green" href="mailto:samuelyuit@gmail.com">
-              samuelyuit@gmail.com
-            </a>
+        <section
+          id="como-funciona"
+          className="instructions"
+          aria-labelledby="instrucoes-titulo"
+        >
+          <div className="section-heading">
+            <p className="eyebrow">DO ARQUIVO À IMPORTAÇÃO</p>
+            <h2 id="instrucoes-titulo">Três passos, uma nova cópia.</h2>
+          </div>
+          <ol className="step-list">
+            {steps.map(([number, title, description]) => (
+              <li key={number}>
+                <span className="step-number">{number}</span>
+                <h3>{title}</h3>
+                <p>{description}</p>
+              </li>
+            ))}
+          </ol>
+          <div className="scope-note">
+            <FileCheck2 aria-hidden size={20} />
+            <p>
+              A correção trata a estrutura do OFX, incluindo fechamento de tags
+              e padronização de datas. Mantenha o original para comparação: esta
+              ferramenta não faz conciliação de saldos ou lançamentos.
+            </p>
+          </div>
+        </section>
+      </main>
+      <footer className="site-footer">
+        <div className="page-width footer-inner">
+          <p>
+            Desenvolvido por <strong>Samuel Yuiti</strong>
+          </p>
+          <div>
+            <a href="mailto:samuelyuit@gmail.com">E-mail</a>
             <a
-              className="text-brand-blue hover:text-brand-green"
               href="https://www.linkedin.com/in/samuelyuiti/"
               rel="noreferrer"
               target="_blank"
             >
               LinkedIn
             </a>
+            <a
+              href="https://github.com/Samuel-Yuiti-SY/Ofx-Formatter"
+              rel="noreferrer"
+              target="_blank"
+            >
+              Código no GitHub
+            </a>
           </div>
         </div>
       </footer>
-    </main>
+    </div>
   );
 }
