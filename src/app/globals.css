@@ -525,3 +525,74 @@ input {
     animation-iteration-count: 1 !important;
   }
 }
+
+:root {
+  --paper: #eff3f8;
+  --ink: #132f53;
+  --muted: #405772;
+  --accent: #144d96;
+  --line: #c6d3df;
+  --radius: 3px;
+}
+.site-header {
+  background: #123356;
+  color: white;
+  border-bottom: 4px solid #f0b05c;
+}
+.wordmark-divider {
+  color: #f0b05c;
+}
+.intro h1 {
+  font-size: clamp(37px, 4.7vw, 64px);
+  font-weight: 700;
+  letter-spacing: -0.055em;
+}
+.intro h1 span {
+  font: inherit;
+  color: var(--accent);
+}
+.workspace {
+  padding-top: clamp(36px, 4vw, 64px);
+}
+.format-example {
+  background: #fff;
+  border-left: 3px solid #d09a43;
+  margin: 24px 0;
+  padding: 16px 18px;
+  max-width: 490px;
+}
+.format-example figcaption {
+  font-size: 13px;
+  font-weight: 700;
+}
+.format-example dl {
+  margin: 12px 0 0;
+}
+.format-example dl > div {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 6px 0;
+}
+.format-example dt {
+  width: 60px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.format-example dd {
+  font:
+    12px/1.6 ui-monospace,
+    monospace;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.dropzone {
+  background: #edf5fc;
+  border: 1.5px dashed #6c88a6;
+}
+.upload-panel {
+  box-shadow: 0 8px 24px #2038500e;
+}
+.upload-button {
+  background: var(--accent);
+}
