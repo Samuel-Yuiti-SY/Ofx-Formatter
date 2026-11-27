@@ -596,3 +596,7 @@ input {
 .upload-button {
   background: var(--accent);
 }
+
+.instructions .format-example { max-width: 42rem; }
+.instructions .privacy-note { margin-bottom: 2rem; }
+@media (max-width: 700px) { .workspace { gap: 20px; padding-top: 24px; } .intro-copy { margin-bottom: 0; } }
