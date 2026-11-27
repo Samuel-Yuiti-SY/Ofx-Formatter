@@ -42,9 +42,19 @@ export default function Home() {
             Formatador de <span>extratos OFX</span>
           </h1>
           <p className="intro-copy">
-            Corrija a formatação do seu arquivo OFX para facilitar a leitura em
-            sistemas financeiros. Selecione o extrato e baixe a versão ajustada.
+            Selecione o arquivo exportado pela Caixa e baixe uma cópia com as tags e as datas corrigidas.
           </p>
+        </section>
+        <UploadForm />
+        <section
+          id="como-funciona"
+          className="instructions"
+          aria-labelledby="instrucoes-titulo"
+        >
+          <div className="section-heading">
+            <p className="eyebrow">FORMATO DO ARQUIVO</p>
+            <h2 id="instrucoes-titulo">Como formatar o extrato</h2>
+          </div>
           <figure className="format-example">
             <figcaption>Exemplo de correção de uma tag</figcaption>
             <dl>
@@ -69,20 +79,6 @@ export default function Home() {
               <br />
               <span>Sem armazenamento permanente do arquivo.</span>
             </p>
-          </div>
-          <a className="text-link" href="#como-funciona">
-            Entenda o que é corrigido <ArrowDown aria-hidden size={16} />
-          </a>
-        </section>
-        <UploadForm />
-        <section
-          id="como-funciona"
-          className="instructions"
-          aria-labelledby="instrucoes-titulo"
-        >
-          <div className="section-heading">
-            <p className="eyebrow">DO ARQUIVO À IMPORTAÇÃO</p>
-            <h2 id="instrucoes-titulo">Como formatar o extrato</h2>
           </div>
           <ol className="step-list">
             {steps.map(([number, title, description]) => (
